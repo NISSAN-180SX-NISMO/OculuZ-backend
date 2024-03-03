@@ -1,6 +1,6 @@
 package com.zuluco.oculuz.model.entities;
 
-import com.zuluco.oculuz.model.entities.complaints.CommentComplaint;
+import com.zuluco.oculuz.model.entities.associations.complaints.CommentComplaint;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -14,7 +14,7 @@ import java.util.Set;
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long commentId;
+    private Long id;
     @Column
     private String content;
     @Column
@@ -25,7 +25,7 @@ public class Comment {
     @ManyToOne
     private User author;
     @ManyToOne
-    private Video video;
+    private CommentBranch branch;
 
     @ManyToMany
     @JoinTable(

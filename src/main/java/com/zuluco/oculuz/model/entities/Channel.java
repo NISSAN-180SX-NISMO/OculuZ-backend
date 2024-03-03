@@ -1,5 +1,5 @@
 package com.zuluco.oculuz.model.entities;
-import com.zuluco.oculuz.model.entities.complaints.ChannelComplaint;
+import com.zuluco.oculuz.model.entities.associations.complaints.ChannelComplaint;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -14,7 +14,7 @@ import java.util.Set;
 public class Channel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long channelId;
+    private Long id;
     @Column
     private String name;
     @Column
@@ -26,9 +26,9 @@ public class Channel {
     @Column
     private String email;
     @Column
-    private String avatarImgLink;
+    private String avatarUrl;
     @Column
-    private String headerImgLink;
+    private String headerUrl;
 
     @ManyToOne
     private User author;

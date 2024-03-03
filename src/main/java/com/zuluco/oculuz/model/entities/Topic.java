@@ -12,7 +12,7 @@ import java.util.Set;
 public class Topic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long topicId;
+    private Long id;
 
     @Column
     private String name;

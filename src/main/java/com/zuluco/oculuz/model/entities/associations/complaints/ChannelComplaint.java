@@ -1,6 +1,6 @@
-package com.zuluco.oculuz.model.entities.complaints;
+package com.zuluco.oculuz.model.entities.associations.complaints;
 
-import com.zuluco.oculuz.model.entities.Comment;
+import com.zuluco.oculuz.model.entities.Channel;
 import com.zuluco.oculuz.model.entities.User;
 import lombok.Data;
 
@@ -10,18 +10,19 @@ import java.util.Set;
 
 
 @Entity
-@Table(name = "CommentComplaints")
+@Table(name = "ChannelComplaints")
 @Data
-public class CommentComplaint extends Complaint {
+public class ChannelComplaint extends Complaint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long complaintId;
+    private Long id;
 
     @ManyToOne
-    private Comment comment;
+    private Channel channel;
     @ManyToOne
     private User author;
 
     @ManyToMany(mappedBy = "complaints")
-    private Set<Comment> comments = new HashSet<>();
+    private Set<Channel> channels = new HashSet<>();
+
 }

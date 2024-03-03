@@ -10,6 +10,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class SerializableViewId implements Serializable {
+    private static final long serialVersionUID = 1L;
     private Long user;
     private Long video;
 }

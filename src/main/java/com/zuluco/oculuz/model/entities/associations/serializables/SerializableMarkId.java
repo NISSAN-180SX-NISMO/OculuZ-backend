@@ -10,6 +10,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class SerializableMarkId implements Serializable {
+    private static final long serialVersionUID = 1L;
     private Long user; // тип и имя должны точно соответствовать тому, что в классе Mark
     private Long video; // тип и имя должны точно соответствовать тому, что в классе Mark
 }

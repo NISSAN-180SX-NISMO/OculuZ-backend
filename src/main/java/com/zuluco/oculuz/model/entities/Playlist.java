@@ -12,7 +12,7 @@ import java.util.Set;
 public class Playlist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long playlistId;
+    private Long id;
 
     @ManyToMany(mappedBy = "containingPlaylists")
     private Set<Video> videos = new HashSet<>();

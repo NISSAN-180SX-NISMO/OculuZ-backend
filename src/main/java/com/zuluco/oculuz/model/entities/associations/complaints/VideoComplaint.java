@@ -1,4 +1,4 @@
-package com.zuluco.oculuz.model.entities.complaints;
+package com.zuluco.oculuz.model.entities.associations.complaints;
 
 import com.zuluco.oculuz.model.entities.User;
 import com.zuluco.oculuz.model.entities.Video;
@@ -15,7 +15,7 @@ import java.util.Set;
 public class VideoComplaint extends Complaint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long complaintId;
+    private Long id;
 
     @ManyToOne
     private Video video;
