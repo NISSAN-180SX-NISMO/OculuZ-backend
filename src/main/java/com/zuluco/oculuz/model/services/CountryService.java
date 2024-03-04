@@ -14,8 +14,7 @@ public class CountryService {
     @Transactional
     public void saveCountry(String name, String code) {
         Country country = new Country();
-        country.setCountryName(name);
-        country.setCountryCode(code);
+        country.setName(name);
         countryRepo.save(country);
     }
 }

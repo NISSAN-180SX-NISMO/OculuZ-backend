@@ -16,9 +16,7 @@ public class Country {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
-    private String countryName;
-    @Column
-    private String countryCode;
+    private String name;
     @OneToMany(mappedBy = "country")
     private List<User> users;
 }

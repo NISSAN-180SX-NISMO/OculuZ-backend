@@ -1,10 +1,15 @@
 package com.zuluco.oculuz.model.dtos;
 
+import com.zuluco.oculuz.model.dtos.user.UserAccountMainPageDTO;
 import com.zuluco.oculuz.model.dtos.video.VideoMiniatureDTO;
 import com.zuluco.oculuz.model.dtos.video.VideoPageDTO;
 import com.zuluco.oculuz.model.entities.User;
 import com.zuluco.oculuz.model.entities.Video;
 import com.zuluco.oculuz.model.entities.associations.markValue;
+import com.zuluco.oculuz.model.entities.Role;
+
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class ModelMapper {
     public static VideoPageDTO toVideoPageDTO(Video video) {
@@ -50,4 +55,21 @@ public class ModelMapper {
         user.setPassword(userRegistrationDTO.getPassword());
         return user;
     }
+
+    public static UserAccountMainPageDTO toUserAccountMainPageDTO(User user) {
+        UserAccountMainPageDTO dto = new UserAccountMainPageDTO();
+        dto.setId(user.getId());
+        dto.setUsername(user.getUsername());
+        dto.setPassword(user.getPassword());
+        dto.setAccessPermission(user.getAccessPermission());
+        dto.setBanned(user.getBanned());
+        dto.setBanEndDate(user.getBanEndDate());
+        dto.setBirthDate(user.getBirthDate());
+        dto.setRegistDate(user.getRegistDate());
+        dto.setAvatarUrl(user.getAvatarUrl());
+        dto.setCountry(user.getCountry() == null ? "" : user.getCountry().getName());
+        dto.setRoles((ArrayList<String>) user.getRoles().stream().map(Role::getName).collect(Collectors.toList()));
+        return dto;
+    }
+
 }

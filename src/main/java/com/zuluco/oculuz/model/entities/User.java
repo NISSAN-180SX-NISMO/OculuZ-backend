@@ -38,9 +38,9 @@ public class User implements UserDetails {
     @Column
     private Date birthDate;
     @Column
-    private String avatarUrl;
+    private Date registDate;
     @Column
-    private String headerUrl;
+    private String avatarUrl;
 
     @ManyToOne
     private Country country;
