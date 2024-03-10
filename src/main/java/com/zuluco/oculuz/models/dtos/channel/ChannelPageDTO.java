@@ -1,20 +1,29 @@
 package com.zuluco.oculuz.models.dtos.channel;
 
+
 import java.util.Date;
 
 public class ChannelPageDTO {
     private String name;
     private Date registDate;
     private String description;
-    private String email;
     private String avatarUrl;
     private String headerUrl;
     private String authorUsername;
     private String authorAvatarUrl;
     private Integer subscribersCount;
     private Integer videosCount;
+    private Boolean isSubscribed;
 
     // Getters and Setters
+
+    public Boolean getIsSubscribed() {
+        return isSubscribed;
+    }
+
+    public void setIsSubscribed(Boolean subscribed) {
+        isSubscribed = subscribed;
+    }
 
     public String getName() {
         return name;
@@ -38,14 +47,6 @@ public class ChannelPageDTO {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getAvatarUrl() {

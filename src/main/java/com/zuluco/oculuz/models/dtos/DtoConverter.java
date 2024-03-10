@@ -28,12 +28,17 @@ public class DtoConverter {
     }
 
     public static ChannelPageDTO convertChannelToChannelPageDto(Channel channel) {
-        ModelMapper modelMapper = new ModelMapper();
-        ChannelPageDTO dto = modelMapper.map(channel, ChannelPageDTO.class);
-
-        dto.setSubscribersCount(channel.getSubscribers().size());
-        dto.setVideosCount(channel.getVideos().size());
-
+        ChannelPageDTO dto = new ChannelPageDTO();
+        dto.setName(channel.getName() != null ? channel.getName() : "");
+        dto.setRegistDate(channel.getRegistDate() != null ? channel.getRegistDate() : null);
+        dto.setDescription(channel.getDescription() != null ? channel.getDescription() : "");
+        dto.setAvatarUrl(channel.getAvatarUrl() != null ? channel.getAvatarUrl() : "");
+        dto.setHeaderUrl(channel.getHeaderUrl() != null ? channel.getHeaderUrl() : "");
+        dto.setAuthorUsername(channel.getAuthor() != null && channel.getAuthor().getUsername() != null ? channel.getAuthor().getUsername() : "");
+        dto.setAuthorAvatarUrl(channel.getAuthor() != null && channel.getAuthor().getAvatarUrl() != null ? channel.getAuthor().getAvatarUrl() : "");
+        dto.setSubscribersCount(channel.getSubscribers() != null ? channel.getSubscribers().size() : 0);
+        dto.setVideosCount(channel.getVideos() != null ? channel.getVideos().size() : 0);
+        dto.setIsSubscribed(null);
         return dto;
     }
 }

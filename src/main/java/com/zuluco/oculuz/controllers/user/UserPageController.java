@@ -18,32 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
-@RestController
-@RequestMapping("/user")
+
 public class UserPageController {
-    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
-    @Autowired
-    private JwtUtils jwtUtils;
-
-    @Autowired
-    private UserService userService;
-
-    private UserPageDTO tryToGetUserPageDTO(String username) throws UsernameNotFoundException {
-        User user = userService.getUserByUsername(username).orElseThrow(
-                () -> new UsernameNotFoundException("User \"" + username + "\" not found")
-        );
-        return DtoConverter.convertUserToUserPageDto(user);
-    }
-
-    @GetMapping("/{username}")
-    public ResponseEntity<UserPageDTO> getUserPage(@PathVariable String username) {
-        try {
-            return ResponseEntity.ok(tryToGetUserPageDTO(username));
-        } catch (UsernameNotFoundException | MappingException | ConfigurationException e) {
-            logger.error(e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-    }
 }
