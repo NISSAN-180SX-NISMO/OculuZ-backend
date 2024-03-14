@@ -10,6 +10,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 //import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -92,15 +93,20 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 // для авторизованных:
                 .antMatchers(HttpMethod.POST, "/channel/{channelName}").authenticated()
+                .antMatchers(HttpMethod.POST, "/user/{channelName}/create-channel").authenticated()
                 // для всех:
                 .antMatchers(HttpMethod.GET, "/channel/{channelName}").permitAll()
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/user/{username}").permitAll()
+                .antMatchers("/video/upload").permitAll()
+                .antMatchers("/video/init-upload").permitAll()
                 .anyRequest().authenticated();
 
         http.authenticationProvider(authenticationProvider());
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        http.cors(Customizer.withDefaults());
 
         return http.build();
     }

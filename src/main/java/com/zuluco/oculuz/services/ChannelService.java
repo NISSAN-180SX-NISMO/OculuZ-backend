@@ -18,4 +18,7 @@ public class ChannelService {
     }
 
 
+    public void createChannel(Channel channel) {
+        channelRepository.save(channel);
+    }
 }

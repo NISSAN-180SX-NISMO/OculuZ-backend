@@ -24,11 +24,12 @@ public class Channel {
     @Column
     private String paymentAccount;
     @Column
-    private String email;
-    @Column
     private String avatarUrl;
     @Column
     private String headerUrl;
+
+    @Column
+    private Boolean isBlocked;
 
     @ManyToOne
     private User author;
@@ -58,13 +59,21 @@ public class Channel {
 
     // Constructors:
 
+
+    public Channel (String name, User author) {
+        this.name = name;
+        this.author = author;
+        this.registDate = new Date(System.currentTimeMillis());
+        this.isBlocked = false;
+        this.avatarUrl = "https://storage.yandexcloud.net/oculuz-media-storage/avatar/defaultAvatar.jpeg";
+        this.headerUrl = "https://storage.yandexcloud.net/oculuz-media-storage/header/defaultChannelHeader.jpg";
+    }
     public Channel(
             Long id,
             String name,
             Date registDate,
             String description,
             String paymentAccount,
-            String email,
             String avatarUrl,
             String headerUrl,
             User author,
@@ -78,7 +87,6 @@ public class Channel {
         this.registDate = registDate;
         this.description = description;
         this.paymentAccount = paymentAccount;
-        this.email = email;
         this.avatarUrl = avatarUrl;
         this.headerUrl = headerUrl;
         this.author = author;
@@ -95,6 +103,13 @@ public class Channel {
     // Getters and setters:
 
 
+    public Boolean getBlocked() {
+        return isBlocked;
+    }
+
+    public void setBlocked(Boolean blocked) {
+        isBlocked = blocked;
+    }
 
     public Long getId() {
         return id;
@@ -134,14 +149,6 @@ public class Channel {
 
     public void setPaymentAccount(String paymentAccount) {
         this.paymentAccount = paymentAccount;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getAvatarUrl() {

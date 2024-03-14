@@ -52,6 +52,7 @@ public class ChannelController {
 
 
     private void tryToGetChannelPageDTO(String channelName) throws ChangeSetPersister.NotFoundException {
+        System.out.println("tryToGetChannelPageDTO method called with channelName: " + channelName);
         Channel channel = channelService.getChannelByChannelName(channelName).orElseThrow(
                 ChangeSetPersister.NotFoundException::new
         );
@@ -69,11 +70,12 @@ public class ChannelController {
     }
 
     @GetMapping("/{channelName}")
-    public ResponseEntity<?> getUserPage(@PathVariable String channelName,
+    public ResponseEntity<?> getChannelPage(@PathVariable String channelName,
                                          @RequestHeader(value = "Authorization", required = false) String authHeader) {
         try {
             tryToGetChannelPageDTO(channelName);
             if (authHeader != null && authHeader.startsWith("Bearer ")) {
+
                 String jwt = authHeader.substring(7);
                 if (jwtUtils.validateJwtToken(jwt))
                     checkSubscribe(jwtUtils.getUserNameFromJwtToken(jwt), channelName);
