@@ -98,8 +98,10 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/channel/{channelName}").permitAll()
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/user/{username}").permitAll()
+                .antMatchers("/user/{username}/channels").permitAll()
                 .antMatchers("/video/upload").permitAll()
                 .antMatchers("/video/init-upload").permitAll()
+                .antMatchers("/preview/upload").permitAll()
                 .anyRequest().authenticated();
 
         http.authenticationProvider(authenticationProvider());

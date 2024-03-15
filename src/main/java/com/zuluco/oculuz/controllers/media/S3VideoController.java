@@ -1,11 +1,12 @@
-package com.zuluco.oculuz.controllers.video;
+package com.zuluco.oculuz.controllers.media;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.model.*;
 import com.zuluco.oculuz.payload.request.InitiateUploadRequest;
-import com.zuluco.oculuz.payload.response.CompleteUploadResponse;
+import com.zuluco.oculuz.payload.response.CompleteVideoUploadResponse;
+import com.zuluco.oculuz.payload.response.MessageResponse;
 import com.zuluco.oculuz.payload.response.UploadResponse;
-import com.zuluco.oculuz.services.VideoService;
+import com.zuluco.oculuz.services.S3Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,16 +21,16 @@ import java.io.IOException;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/video")
-public class VideoController {
+public class S3VideoController {
     @Autowired
-    private VideoService videoService;
+    private S3Service s3Service;
 
-    private static final Logger logger = LoggerFactory.getLogger(VideoController.class);
+    private static final Logger logger = LoggerFactory.getLogger(S3VideoController.class);
 
-    @PostMapping("/init-upload")
+    @PostMapping("/video/init-upload")
     public ResponseEntity<UploadResponse> initUpload(@RequestBody InitiateUploadRequest request) {
         try {
-            String uploadId = videoService.initUpload(request.getFileName()).getUploadId();
+            String uploadId = s3Service.initUpload(request.getFileName()).getUploadId();
             logger.info("Upload initiated with ID: " + uploadId);
             return ResponseEntity.ok(new UploadResponse(uploadId, "Upload initiated successfully", 0));
         } catch (AmazonServiceException e) {
@@ -38,14 +39,14 @@ public class VideoController {
         }
     }
 
-    @PostMapping("/upload")
+    @PostMapping("/video/upload")
     public ResponseEntity<UploadResponse> handleFileUpload(
             @RequestParam("file") MultipartFile file,
             @RequestParam("partNumber") int partNumber,
             @RequestParam("uploadId") String uploadId
     ) {
         try {
-            UploadPartResult uploadResult = videoService.handleFileUpload(file, partNumber, uploadId);
+            UploadPartResult uploadResult = s3Service.handleFileUpload(file, partNumber, uploadId);
             logger.info("Part " + partNumber + " uploaded successfully");
             return ResponseEntity.ok(new UploadResponse(uploadId, "Part " + partNumber + " uploaded successfully", partNumber));
         } catch (IOException e) {
@@ -55,14 +56,14 @@ public class VideoController {
     }
 
     @PostMapping("/complete-upload")
-    public ResponseEntity<CompleteUploadResponse> completeMultipartUpload(@RequestParam("uploadId") String uploadId) {
+    public ResponseEntity<?> completeMultipartUpload(@RequestParam("uploadId") String uploadId) {
         try {
-            CompleteMultipartUploadResult compResult = videoService.completeMultipartUpload(uploadId);
+            CompleteMultipartUploadResult compResult = s3Service.completeMultipartUpload(uploadId);
             logger.info("Загрузка завершена. Файл доступен по ключу: " + compResult.getKey());
-            return ResponseEntity.ok(new CompleteUploadResponse(compResult.getLocation()));
+            return ResponseEntity.ok(new CompleteVideoUploadResponse(compResult.getLocation()));
         } catch (AmazonServiceException e) {
             logger.error("Error occurred while completing upload", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new CompleteUploadResponse(null));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse("Error occurred while uploading file"));
         }
     }
 }

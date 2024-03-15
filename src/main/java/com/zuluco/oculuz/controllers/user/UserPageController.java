@@ -1,12 +1,16 @@
 package com.zuluco.oculuz.controllers.user;
 
 import com.zuluco.oculuz.models.dtos.DtoConverter;
+import com.zuluco.oculuz.models.dtos.channel.ChannelMiniatureDTO;
 import com.zuluco.oculuz.models.dtos.channel.ChannelPageDTO;
 import com.zuluco.oculuz.models.dtos.user.UserPageDTO;
 import com.zuluco.oculuz.models.entities.Channel;
+import com.zuluco.oculuz.models.entities.RoleType;
 import com.zuluco.oculuz.models.entities.User;
 import com.zuluco.oculuz.payload.request.ChannelCreationRequest;
+import com.zuluco.oculuz.repository.RoleRepository;
 import com.zuluco.oculuz.security.jwt.JwtUtils;
+import com.zuluco.oculuz.security.services.RoleService;
 import com.zuluco.oculuz.security.services.UserDetailsServiceImpl;
 import com.zuluco.oculuz.services.ChannelService;
 import com.zuluco.oculuz.services.UserService;
@@ -24,7 +28,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.management.InstanceAlreadyExistsException;
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -40,6 +46,9 @@ public class UserPageController {
 
     @Autowired
     private ChannelService channelService;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Transactional
     public ChannelPageDTO tryToCreateChannel(String username, String channelName)
@@ -63,6 +72,8 @@ public class UserPageController {
 
         logger.info("Channel created successfully");
 
+        author.addRole(roleRepository.findByName(RoleType.ROLE_AUTHOR).get());
+
         return DtoConverter.convertChannelToChannelPageDto(channelService.getChannelByChannelName(channelName)
                 .orElseThrow( ChangeSetPersister.NotFoundException::new ));
     }
@@ -79,6 +90,18 @@ public class UserPageController {
         } catch (InstanceAlreadyExistsException e) {
             logger.error(e.getMessage());
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+    }
+
+    @GetMapping("/channels")
+    public ResponseEntity<List<ChannelMiniatureDTO>> getChannels(@PathVariable String username) {
+        try {
+            return ResponseEntity.ok(userService.getUserChannels(username).stream()
+                    .map(DtoConverter::convertChannelToChannelMiniatureDto)
+                    .collect(Collectors.toList()));
+        } catch (UsernameNotFoundException e) {
+            logger.error(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 

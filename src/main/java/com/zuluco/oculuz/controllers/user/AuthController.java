@@ -157,13 +157,14 @@ public class AuthController {
             encoder.encode(signUpRequest.getPassword()));
     user.setRegistDate(new java.sql.Date(new Date().getTime()));
 
-    Set<String> strRoles = signUpRequest.getRole();
+    List<String> strRoles = signUpRequest.getRole();
     List<Role> roles = new ArrayList<>();
 
     if (strRoles == null) {
       Role userRole = roleRepository.findByName(RoleType.ROLE_USER)
               .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
       roles.add(userRole);
+      logger.info("User with role " + userRole.toString() + " registered successfully: {}", signUpRequest.getUsername());
     } else {
       strRoles.forEach(role -> {
         switch (role) {
@@ -171,18 +172,19 @@ public class AuthController {
             Role adminRole = roleRepository.findByName(RoleType.ROLE_ADMIN)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(adminRole);
-
+            logger.info("User with role ADMIN registered successfully: {}", signUpRequest.getUsername());
             break;
           case "author":
             Role modRole = roleRepository.findByName(RoleType.ROLE_AUTHOR)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(modRole);
-
+            logger.info("User with role AUTHOR registered successfully: {}", signUpRequest.getUsername());
             break;
           default:
             Role userRole = roleRepository.findByName(RoleType.ROLE_USER)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(userRole);
+            logger.info("User with role USER registered successfully: {}", signUpRequest.getUsername());
         }
       });
     }

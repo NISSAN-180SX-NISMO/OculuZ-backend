@@ -1,5 +1,6 @@
 package com.zuluco.oculuz.models.dtos;
 
+import com.zuluco.oculuz.models.dtos.channel.ChannelMiniatureDTO;
 import com.zuluco.oculuz.models.dtos.channel.ChannelPageDTO;
 import com.zuluco.oculuz.models.dtos.user.UserPageDTO;
 import com.zuluco.oculuz.models.entities.Channel;
@@ -39,6 +40,14 @@ public class DtoConverter {
         dto.setSubscribersCount(channel.getSubscribers() != null ? channel.getSubscribers().size() : 0);
         dto.setVideosCount(channel.getVideos() != null ? channel.getVideos().size() : 0);
         dto.setIsSubscribed(null);
+        return dto;
+    }
+
+    public static ChannelMiniatureDTO convertChannelToChannelMiniatureDto(Channel channel) {
+        ChannelMiniatureDTO dto = new ChannelMiniatureDTO();
+        dto.setName(channel.getName() != null ? channel.getName() : "");
+        dto.setAvatarUrl(channel.getAvatarUrl() != null ? channel.getAvatarUrl() : "");
+        dto.setSubscribersCount(channel.getSubscribers() != null ? channel.getSubscribers().size() : 0);
         return dto;
     }
 }
