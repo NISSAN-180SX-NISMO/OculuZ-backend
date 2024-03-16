@@ -27,8 +27,9 @@ public class S3VideoController {
 
     private static final Logger logger = LoggerFactory.getLogger(S3VideoController.class);
 
-    @PostMapping("/video/init-upload")
+    @PostMapping("/init-upload")
     public ResponseEntity<UploadResponse> initUpload(@RequestBody InitiateUploadRequest request) {
+        System.out.println(request.getFileName());
         try {
             String uploadId = s3Service.initUpload(request.getFileName()).getUploadId();
             logger.info("Upload initiated with ID: " + uploadId);
@@ -39,7 +40,7 @@ public class S3VideoController {
         }
     }
 
-    @PostMapping("/video/upload")
+    @PostMapping("/upload")
     public ResponseEntity<UploadResponse> handleFileUpload(
             @RequestParam("file") MultipartFile file,
             @RequestParam("partNumber") int partNumber,
@@ -60,7 +61,7 @@ public class S3VideoController {
         try {
             CompleteMultipartUploadResult compResult = s3Service.completeMultipartUpload(uploadId);
             logger.info("Загрузка завершена. Файл доступен по ключу: " + compResult.getKey());
-            return ResponseEntity.ok(new CompleteVideoUploadResponse(compResult.getLocation()));
+            return ResponseEntity.ok(new CompleteVideoUploadResponse("https://" + compResult.getLocation()));
         } catch (AmazonServiceException e) {
             logger.error("Error occurred while completing upload", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse("Error occurred while uploading file"));

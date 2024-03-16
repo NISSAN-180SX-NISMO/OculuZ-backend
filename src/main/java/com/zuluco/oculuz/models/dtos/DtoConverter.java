@@ -3,14 +3,17 @@ package com.zuluco.oculuz.models.dtos;
 import com.zuluco.oculuz.models.dtos.channel.ChannelMiniatureDTO;
 import com.zuluco.oculuz.models.dtos.channel.ChannelPageDTO;
 import com.zuluco.oculuz.models.dtos.user.UserPageDTO;
-import com.zuluco.oculuz.models.entities.Channel;
-import com.zuluco.oculuz.models.entities.User;
-import com.zuluco.oculuz.models.entities.Role;
+import com.zuluco.oculuz.models.dtos.video.NewVideoDTO;
+import com.zuluco.oculuz.models.entities.*;
+import com.zuluco.oculuz.services.CommentBranchService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
-
+@Component
 public class DtoConverter {
 
     public static UserPageDTO convertUserToUserPageDto(User user) {
@@ -49,5 +52,20 @@ public class DtoConverter {
         dto.setAvatarUrl(channel.getAvatarUrl() != null ? channel.getAvatarUrl() : "");
         dto.setSubscribersCount(channel.getSubscribers() != null ? channel.getSubscribers().size() : 0);
         return dto;
+    }
+
+    public static Video convertNewVideoDtoToVideo(NewVideoDTO newVideoDto) {
+        Video newVideo = new Video();
+        newVideo.setTitle(newVideoDto.getTitle());
+        newVideo.setUrl(newVideoDto.getUrl());
+        newVideo.setDescription(newVideoDto.getDescription());
+        newVideo.setDuration(newVideoDto.getDuration());
+        newVideo.setPreviewUrl(newVideoDto.getPreviewUrl());
+        newVideo.setUploadDate(newVideoDto.getUploadDate());
+        newVideo.setEditDate(null);
+        newVideo.setMonetized(!newVideoDto.isAdultContent());
+        newVideo.setAdultContent(newVideoDto.isAdultContent());
+        newVideo.setBanned(false);
+        return newVideo;
     }
 }

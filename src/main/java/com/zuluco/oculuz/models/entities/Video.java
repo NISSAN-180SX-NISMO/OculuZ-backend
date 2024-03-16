@@ -6,6 +6,7 @@ import com.zuluco.oculuz.models.entities.intermediates.complaints.CommentComplai
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
+import java.time.Duration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,7 +24,7 @@ public class Video {
     @Column
     private String description;
     @Column
-    private Time duration;
+    private Duration duration;
     @Column
     private String previewUrl;
     @Column
@@ -36,7 +37,7 @@ public class Video {
     private boolean adultContent;
     @Column
     private boolean banned;
-    @OneToOne
+    @OneToOne(mappedBy = "video")
     private CommentBranch commentBranch;
 
     @ManyToOne
@@ -74,7 +75,7 @@ public class Video {
             String title,
             String url,
             String description,
-            Time duration,
+            Duration duration,
             String previewUrl,
             Date uploadDate,
             Date editDate,
@@ -145,11 +146,11 @@ public class Video {
         this.description = description;
     }
 
-    public Time getDuration() {
+    public Duration getDuration() {
         return duration;
     }
 
-    public void setDuration(Time duration) {
+    public void setDuration(Duration duration) {
         this.duration = duration;
     }
 
