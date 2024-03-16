@@ -1,5 +1,6 @@
 package com.zuluco.oculuz.advice;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import com.zuluco.oculuz.exception.TokenRefreshException;
@@ -17,7 +18,7 @@ public class TokenControllerAdvice {
   public ErrorMessage handleTokenRefreshException(TokenRefreshException ex, WebRequest request) {
     return new ErrorMessage(
         HttpStatus.FORBIDDEN.value(),
-        new Date(),
+        new Date(LocalDateTime.now().getNano()),
         ex.getMessage(),
         request.getDescription(false));
   }

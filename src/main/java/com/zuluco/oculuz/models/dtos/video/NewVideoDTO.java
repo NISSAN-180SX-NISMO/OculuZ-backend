@@ -9,14 +9,15 @@ import javax.persistence.OneToOne;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.Duration;
+import java.time.LocalDateTime;
 
 public class NewVideoDTO {
     private String title;
     private String url;
     private String description;
-    private Duration duration;
+    private Long duration;
     private String previewUrl;
-    private Date uploadDate;
+    private LocalDateTime uploadDate;
     private boolean adultContent;
     private String channelName;
 
@@ -27,9 +28,9 @@ public class NewVideoDTO {
             String title,
             String url,
             String description,
-            Duration duration,
+            Long duration,
             String previewUrl,
-            Date uploadDate,
+            LocalDateTime uploadDate,
             boolean adultContent,
             String channelName) {
         this.title = title;
@@ -66,11 +67,11 @@ public class NewVideoDTO {
         this.description = description;
     }
 
-    public Duration getDuration() {
+    public Long getDuration() {
         return duration;
     }
 
-    public void setDuration(Duration duration) {
+    public void setDuration(Long duration) {
         this.duration = duration;
     }
 
@@ -82,11 +83,11 @@ public class NewVideoDTO {
         this.previewUrl = previewUrl;
     }
 
-    public Date getUploadDate() {
+    public LocalDateTime getUploadDate() {
         return uploadDate;
     }
 
-    public void setUploadDate(Date uploadDate) {
+    public void setUploadDate(LocalDateTime uploadDate) {
         this.uploadDate = uploadDate;
     }
 

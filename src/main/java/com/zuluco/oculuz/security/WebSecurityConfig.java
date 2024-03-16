@@ -102,6 +102,8 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
                 .antMatchers("/video/upload").permitAll()
                 .antMatchers("/video/init-upload").permitAll()
                 .antMatchers("/preview/upload").permitAll()
+                .antMatchers("/video/{videoId}").permitAll()
+                .antMatchers("/video").permitAll()
                 .anyRequest().authenticated();
 
         http.authenticationProvider(authenticationProvider());

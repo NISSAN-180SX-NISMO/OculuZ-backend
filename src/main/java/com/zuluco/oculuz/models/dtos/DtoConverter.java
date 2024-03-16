@@ -4,7 +4,10 @@ import com.zuluco.oculuz.models.dtos.channel.ChannelMiniatureDTO;
 import com.zuluco.oculuz.models.dtos.channel.ChannelPageDTO;
 import com.zuluco.oculuz.models.dtos.user.UserPageDTO;
 import com.zuluco.oculuz.models.dtos.video.NewVideoDTO;
+import com.zuluco.oculuz.models.dtos.video.VideoPageDTO;
+import com.zuluco.oculuz.models.dtos.video.VideoPreviewDTO;
 import com.zuluco.oculuz.models.entities.*;
+import com.zuluco.oculuz.models.entities.intermediates.MarkType;
 import com.zuluco.oculuz.services.CommentBranchService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
@@ -12,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
+import javax.naming.InsufficientResourcesException;
 import java.util.stream.Collectors;
+
 @Component
 public class DtoConverter {
 
@@ -67,5 +72,45 @@ public class DtoConverter {
         newVideo.setAdultContent(newVideoDto.isAdultContent());
         newVideo.setBanned(false);
         return newVideo;
+    }
+
+    public static VideoPageDTO convertVideoToVideoPageDto(Video video) {
+        VideoPageDTO dto = new VideoPageDTO();
+        dto.setId(video.getId() != null ? video.getId() : "");
+        dto.setUrl(video.getUrl() != null ? video.getUrl() : "");
+        dto.setPreviewUrl(video.getPreviewUrl() != null ? video.getPreviewUrl() : "");
+        dto.setChannelAvatarUrl(video.getChannel() != null && video.getChannel().getAvatarUrl() != null ? video.getChannel().getAvatarUrl() : "");
+        dto.setTitle(video.getTitle() != null ? video.getTitle() : "");
+        dto.setChannelName(video.getChannel() != null && video.getChannel().getName() != null ? video.getChannel().getName() : "");
+        dto.setDescription(video.getDescription() != null ? video.getDescription() : "");
+        dto.setDuration(video.getDuration() != null ? video.getDuration() : null);
+        dto.setUploadDate(video.getUploadDate() != null ? video.getUploadDate() : null);
+        dto.setEditDate(video.getEditDate() != null ? video.getEditDate() : null);
+        dto.setMonetized(video.isMonetized());
+        dto.setAdultContent(video.isAdultContent());
+        dto.setBanned(video.isBanned());
+        dto.setViews(video.getViews() != null ? video.getViews().size() : 0);
+        Integer likesCount = Math.toIntExact(video.getMarks() != null ?
+                video.getMarks().stream().filter(mark -> mark.getValue() == MarkType.LIKE).count() : 0);
+        dto.setLikes(likesCount);
+        Integer dislikesCount = Math.toIntExact(video.getMarks() != null ?
+                video.getMarks().stream().filter(mark -> mark.getValue() == MarkType.DISLIKE).count() : 0);
+        dto.setDislikes(dislikesCount);
+        dto.setCommentBranchId(video.getCommentBranch() != null ? video.getCommentBranch().getId() : null);
+        return dto;
+    }
+
+    public static VideoPreviewDTO convertVideoToVideoPreviewDto(Video video) {
+        VideoPreviewDTO dto = new VideoPreviewDTO();
+        dto.setId(video.getId() != null ? video.getId() : "");
+        dto.setPreviewUrl(video.getPreviewUrl() != null ? video.getPreviewUrl() : "");
+        dto.setChannelAvatarUrl(video.getChannel() != null && video.getChannel().getAvatarUrl() != null ? video.getChannel().getAvatarUrl() : "");
+        dto.setUrl(video.getUrl() != null ? video.getUrl() : "");
+        dto.setTitle(video.getTitle() != null ? video.getTitle() : "");
+        dto.setChannelName(video.getChannel() != null && video.getChannel().getName() != null ? video.getChannel().getName() : "");
+        dto.setDuration(video.getDuration() != null ? video.getDuration() : null);
+        dto.setUploadDate(video.getUploadDate() != null ? video.getUploadDate() : null);
+        dto.setViews(video.getViews() != null ? video.getViews().size() : 0);
+        return dto;
     }
 }

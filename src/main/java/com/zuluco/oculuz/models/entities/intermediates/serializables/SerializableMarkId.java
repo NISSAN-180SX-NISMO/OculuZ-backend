@@ -8,10 +8,10 @@ import java.util.Objects;
 public class SerializableMarkId implements Serializable {
     private static final long serialVersionUID = 1L;
     private Long user; // тип и имя должны точно соответствовать тому, что в классе Mark
-    private Long video; // тип и имя должны точно соответствовать тому, что в классе Mark
+    private String video; // тип и имя должны точно соответствовать тому, что в классе Mark
 
 
-    public SerializableMarkId(Long user, Long video) {
+    public SerializableMarkId(Long user, String video) {
         this.user = user;
         this.video = video;
     }

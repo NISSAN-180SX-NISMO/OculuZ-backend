@@ -19,7 +19,7 @@ public class CommentBranchService {
     @Autowired
     private VideoRepository videoRepository;
 
-    public void createCommentBranch(Long sourceVideoId) {
+    public void createCommentBranch(String sourceVideoId) {
         CommentBranch commentBranch = new CommentBranch();
         commentBranch.setVideo(videoRepository.getVideoById(sourceVideoId).orElseThrow(
                 () -> new NotFoundException("Video with id " + sourceVideoId + " not found.")

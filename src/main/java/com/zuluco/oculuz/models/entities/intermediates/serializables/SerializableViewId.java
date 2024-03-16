@@ -9,9 +9,9 @@ import java.util.Objects;
 public class SerializableViewId implements Serializable {
     private static final long serialVersionUID = 1L;
     private Long user;
-    private Long video;
+    private String video;
 
-    public SerializableViewId(Long user, Long video) {
+    public SerializableViewId(Long user, String video) {
         this.user = user;
         this.video = video;
     }

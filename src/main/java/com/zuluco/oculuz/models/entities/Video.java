@@ -2,11 +2,13 @@ package com.zuluco.oculuz.models.entities;
 
 import com.zuluco.oculuz.models.entities.intermediates.*;
 import com.zuluco.oculuz.models.entities.intermediates.complaints.CommentComplaint;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -14,9 +16,12 @@ import java.util.Set;
 @Entity
 @Table(name = "videos")
 public class Video {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "com.zuluco.oculuz.models.entities.intermediates.serializables.VideoUUIDGenerator")
+    private String id;
+
     @Column
     private String title;
     @Column
@@ -24,13 +29,13 @@ public class Video {
     @Column
     private String description;
     @Column
-    private Duration duration;
+    private Long duration;
     @Column
     private String previewUrl;
     @Column
-    private Date uploadDate;
+    private LocalDateTime uploadDate;
     @Column
-    private Date editDate;
+    private LocalDateTime editDate;
     @Column
     private boolean monetized;
     @Column
@@ -66,19 +71,18 @@ public class Video {
     private Set<CommentComplaint> complaints = new HashSet<>();
 
 
-
     // Constructors:
 
 
     public Video(
-            Long id,
+            String id,
             String title,
             String url,
             String description,
-            Duration duration,
+            Long duration,
             String previewUrl,
-            Date uploadDate,
-            Date editDate,
+            LocalDateTime uploadDate,
+            LocalDateTime editDate,
             boolean monetized,
             boolean adultContent,
             boolean banned,
@@ -114,11 +118,11 @@ public class Video {
     // Getters and Setters:
 
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -146,11 +150,11 @@ public class Video {
         this.description = description;
     }
 
-    public Duration getDuration() {
+    public Long getDuration() {
         return duration;
     }
 
-    public void setDuration(Duration duration) {
+    public void setDuration(Long duration) {
         this.duration = duration;
     }
 
@@ -162,19 +166,19 @@ public class Video {
         this.previewUrl = previewUrl;
     }
 
-    public Date getUploadDate() {
+    public LocalDateTime getUploadDate() {
         return uploadDate;
     }
 
-    public void setUploadDate(Date uploadDate) {
+    public void setUploadDate(LocalDateTime uploadDate) {
         this.uploadDate = uploadDate;
     }
 
-    public Date getEditDate() {
+    public LocalDateTime getEditDate() {
         return editDate;
     }
 
-    public void setEditDate(Date editDate) {
+    public void setEditDate(LocalDateTime editDate) {
         this.editDate = editDate;
     }
 

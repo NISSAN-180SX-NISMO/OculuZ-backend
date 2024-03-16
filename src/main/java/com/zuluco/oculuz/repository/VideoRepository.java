@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface VideoRepository extends JpaRepository<Video, Long> {
-    Optional<Video> getVideoById(Long sourceVideoId);
+    Optional<Video> getVideoById(String sourceVideoId);
 }
