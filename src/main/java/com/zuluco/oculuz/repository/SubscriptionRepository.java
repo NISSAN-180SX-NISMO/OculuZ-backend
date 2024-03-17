@@ -12,4 +12,6 @@ import java.util.Optional;
 public interface SubscriptionRepository extends JpaRepository<Subscription, Long> {
 
     Optional<Subscription> findByUserAndChannel(User user, Channel channel);
+
+    Boolean existsByUserAndChannel(User user, Channel channel);
 }
