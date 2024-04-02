@@ -21,8 +21,9 @@ public class VideoPageDTO {
     private Integer likes;
     private Integer dislikes;
     private Long commentBranchId;
+    private Integer subscribersCount;
 
-    public VideoPageDTO(String id, String url, String previewUrl, String channelAvatarUrl, String title, String channelName, String description, Long duration, LocalDateTime uploadDate, LocalDateTime editDate, Boolean monetized, Boolean adultContent, Boolean banned, Integer views, Integer likes, Integer dislikes, Long commentBranchId) {
+    public VideoPageDTO(String id, String url, String previewUrl, String channelAvatarUrl, String title, String channelName, String description, Long duration, LocalDateTime uploadDate, LocalDateTime editDate, Boolean monetized, Boolean adultContent, Boolean banned, Integer views, Integer likes, Integer dislikes, Long commentBranchId, Integer subscribersCount) {
         this.id = id;
         this.url = url;
         this.previewUrl = previewUrl;
@@ -40,12 +41,21 @@ public class VideoPageDTO {
         this.likes = likes;
         this.dislikes = dislikes;
         this.commentBranchId = commentBranchId;
+        this.subscribersCount = subscribersCount;
     }
 
     public VideoPageDTO() {
     }
 
     // Getters and Setters
+
+    public Integer getSubscribersCount() {
+        return subscribersCount;
+    }
+
+    public void setSubscribersCount(Integer subscribersCount) {
+        this.subscribersCount = subscribersCount;
+    }
 
     public String getId() {
         return id;

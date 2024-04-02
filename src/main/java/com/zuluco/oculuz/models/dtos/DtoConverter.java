@@ -97,6 +97,7 @@ public class DtoConverter {
                 video.getMarks().stream().filter(mark -> mark.getValue() == MarkType.DISLIKE).count() : 0);
         dto.setDislikes(dislikesCount);
         dto.setCommentBranchId(video.getCommentBranch() != null ? video.getCommentBranch().getId() : null);
+        dto.setSubscribersCount(video.getChannel().getSubscribers().size());
         return dto;
     }
 
